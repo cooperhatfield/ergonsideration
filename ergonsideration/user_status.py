@@ -21,7 +21,9 @@ def is_busy(checker_modules, names):
 		try:
 			checker = checker_module()
 			assert issubclass(checker, Checker)
-			if checker.get_busy_status():
+			if not checker.is_running():
+				pass
+			elif checker.get_busy_status():
 				return True
 
 		except AssertionError:
