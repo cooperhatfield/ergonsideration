@@ -20,6 +20,7 @@ def get_registered_classes():
 	return checker_modules, names
 
 def is_busy(checker_modules, names):
+	busy = multiprocessing.Value(bool, False)
 	for checker_module, name in (checker_modules, names):
 		try:
 			checker = checker_module()
@@ -27,12 +28,19 @@ def is_busy(checker_modules, names):
 			if not checker.is_running():
 				pass
 			else:
-				p = multiprocessing.Process(target=checker.get_busy_status)
+				p = multiprocessing.Process(target=checker.get_busy_status, args=busy)
 				p.start()
 				p.join(checker.get_timeout_time())
+				if p.is_alive():
+					print(f'Module "{name}" timed out when getting busy status. ignored.')
+					p.terminate()
+				elif busy:
+					return True
 		except AssertionError:
 			print(f'Module "{name}" is not a proper child of Checker class, ignored.')
 		except NotImplementedError:
 			print(f'Module "{name}" doesn\'t implement a necessary function from the Checker class, ignored.')
+	for checker in valid_checkers:
+		
 
 	return False
