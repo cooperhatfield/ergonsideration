@@ -5,5 +5,5 @@ class Checker:
 	def get_busy_status(self) -> bool:
 		raise NotImplementedError()
 
-	def timeout_time(self) -> int:
-		return 100 #ms
+	def get_timeout_time(self) -> int:
+		return 10 #s
