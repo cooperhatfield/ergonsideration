@@ -1,5 +1,8 @@
 import glob
 import importlib
+
+import multiprocessing
+
 from checker import Checker
 
 def dynamic_import(module_name, py_path):
@@ -23,9 +26,10 @@ def is_busy(checker_modules, names):
 			assert issubclass(checker, Checker)
 			if not checker.is_running():
 				pass
-			elif checker.get_busy_status():
-				return True
-
+			else:
+				p = multiprocessing.Process(target=checker.get_busy_status)
+				p.start()
+				p.join(checker.get_timeout_time())
 		except AssertionError:
 			print(f'Module "{name}" is not a proper child of Checker class, ignored.')
 		except NotImplementedError:
