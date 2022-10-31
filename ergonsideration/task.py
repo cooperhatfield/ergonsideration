@@ -1,3 +1,5 @@
+import multiprocessing
+
 from checker import Checker
 import notify
 
