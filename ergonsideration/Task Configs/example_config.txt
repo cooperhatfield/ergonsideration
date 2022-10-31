@@ -1,0 +1,23 @@
+{name:example,
+schedule_config:
+    {
+    interval:60,
+    length:5
+    },
+notification_config:
+    {
+    visual_config:
+        {
+        task_name:example,
+        title: example Title,
+	content: example content,
+        template: toastGeneric
+        },
+    button_config:
+        {button_group:default_Accept_Snooze}
+    },
+checker_config:
+    {
+    checkers:[example_checker.py]
+    }
+}
