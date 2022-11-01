@@ -31,12 +31,12 @@ class Task:
 					p.start()
 					p.join(checker.get_timeout_time())
 					if p.is_alive():
-						print(f'A module timed out when getting busy status. ignored.')
+						print(f'Checker {checker.get_name()} timed out when getting busy status. ignored.')
 						p.terminate()
 					elif busy:
 						return True
 			except AssertionError:
-				print(f'A module is not a proper child of Checker class, ignored.')
+				print(f'Module {checker.get_name()} is not a proper child of Checker class, ignored.')
 			except NotImplementedError:
-				print(f'A module doesn\'t implement a necessary function from the Checker class, ignored.')
+				print(f'Module {checker.get_name()} doesn\'t implement a necessary function from the Checker class, ignored.')
 	return False
