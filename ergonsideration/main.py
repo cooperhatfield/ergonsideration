@@ -11,13 +11,13 @@ def dynamic_import(py_path):
 	Load a python file given by filename `py_path` as a module. WARNING: this could be very 
 	dangerous. Make sure you verify EVERY module is safe before using this!
 	'''
-    module_spec = importlib.util.spec_from_file_location(module_name, py_path)
-    module = importlib.util.module_from_spec(module_spec)
-    module_spec.loader.exec_module(module)
-    
-    activated_module = module()
-    activated_module.set_name(py_path)
-    return activated_module
+	module_spec = importlib.util.spec_from_file_location(module_name, py_path)
+	module = importlib.util.module_from_spec(module_spec)
+	module_spec.loader.exec_module(module)
+	
+	activated_module = module()
+	activated_module.set_name(py_path)
+	return activated_module
 
 def parse_config(config_file):
 	''' Parse a config file defining an task. The structure of the file is defined elsewhere, but
@@ -47,8 +47,10 @@ def setup_calendar():
 	'''
 	calendar = Calendar()
 	for config_file in glob.glob(f'/Task Config/*.txt'):
+		print(f'loading file {config_file}')
 		task = load_task(config_file)
 		calendar.register_task(task)
+	print(calendar.queue())
 	calendar.run_schedule()
 
 
