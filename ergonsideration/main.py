@@ -2,7 +2,7 @@ import glob
 import importlib
 import json
 
-import calendar
+from calendar import Calendar
 from task import Task
 from checker import Checker
 
@@ -30,8 +30,19 @@ def register_new_task(config_file):
 	for checker in checker_config:
 		checker_file = glob.glob(f'/Checkers/{checker}')
 		checkers.append(dynamic_import(checker_file))
-
 	task = Task(notification_config, schedule_config, checkers)
+	return task
+
+def setup_calendar():
+	''' Basically the program entry point; this creates the scheduling calendar, loads tasks from
+	all current configs, registers the tasks with the calendar, and runs it.
+	'''
+	calendar = Calendar()
+	for config_file in glob.glob(f'/Task Config/*.txt'):
+		task = load_task(config_file)
+		calendar.register_task(task)
+	calendar.run_schedule()
+
 
 	# now register the task with the calendar
 
