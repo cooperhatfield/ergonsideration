@@ -41,6 +41,8 @@ def send_win_toast_notification(notification_config):
 		case {'visual_config': {'task_name': task_name, 'title': task_title, 'content': task_content, 'template': task_template},
 			  'button_config': {'button_group': task_buttons}}:
 			pass
+	if task_buttons == 'default_Accept_Snooze':
+		task_buttons = default_Accept_Snooze
 
 	#define your notification as string
 	visuals = f'\
