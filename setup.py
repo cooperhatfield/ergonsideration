@@ -17,5 +17,5 @@ setuptools.setup(
     },
     license='',
     packages=['ergonsideration'],
-    install_requires=['sched', 'winsdk', 'importlib', 'glob', 'json'],
+    install_requires=['winsdk', 'importlib'],
 )
