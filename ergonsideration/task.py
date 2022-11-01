@@ -5,6 +5,10 @@ from calendar import Calendar
 import notify
 
 class Task:
+	''' A task is an object representing a specific action (theoretically an ergonomic reminder),
+	such as 'get up to stretch every hour'. A task object will contain the relevant checkers, the
+	configuration for when to run the task, and the configuration for the task's notification.
+	'''
 	def __init__(self, notification_config, schedule_config, checkers):
 		self.notification_config = notification_config
 		self.schedule_config = schedule_config
@@ -12,6 +16,12 @@ class Task:
 		self.calendar = Calendar()
 
 	def run_task(self):
+		''' Check if the user is busy. If not, then send a notification.
+		TODO:
+		- add logic for buttons on the notification
+		- support for snoozing
+		- support for task ending notifications
+		'''
 		user_is_busy = self.is_busy()
 		if not user_is_busy:
 			notify.send_notification(self.notification_config)
@@ -20,6 +30,13 @@ class Task:
 		self.calendar.register_task(delay, self.run_task)
 
 	def is_busy(self):
+		''' Check with each registered checker to see if the user is busy. If a checker times out,
+		isn't a proper instance of the `Checker` class, or doesn't implement all relevant 
+		functions, then it is ignored.
+		TODO:
+		- optional behavior for ignoring, quitting, or assuming the user is busy when a checker
+			times out
+		'''
 		busy = multiprocessing.Value(bool, False)
 		for checker in self.checkers:
 			try:

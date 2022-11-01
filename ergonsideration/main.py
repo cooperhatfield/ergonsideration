@@ -8,6 +8,8 @@ from checker import Checker
 
 def dynamic_import(py_path):
 	''' from https://stackoverflow.com/questions/57878744/how-do-i-dynamically-import-all-py-files-from-a-given-directory-and-all-sub-di
+	Load a python file given by filename `py_path` as a module. WARNING: this could be very 
+	dangerous. Make sure you verify EVERY module is safe before using this!
 	'''
     module_spec = importlib.util.spec_from_file_location(module_name, py_path)
     module = importlib.util.module_from_spec(module_spec)
@@ -18,6 +20,10 @@ def dynamic_import(py_path):
     return activated_module
 
 def parse_config(config_file):
+	''' Parse a config file defining an task. The structure of the file is defined elsewhere, but
+	it describes the notification content, schedule settings, and relevant checker modules for the
+	given task.
+	'''
 	filepath = config_file
 	with open(filepath) as file:
 		config_data = json.load(file)
@@ -46,6 +52,5 @@ def setup_calendar():
 	calendar.run_schedule()
 
 
-	# now register the task with the calendar
 
 
