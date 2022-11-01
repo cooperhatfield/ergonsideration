@@ -17,9 +17,8 @@ class Task:
 
 	def is_busy(self):
 		busy = multiprocessing.Value(bool, False)
-		for checker_module in self.checkers:
+		for checker in self.checkers:
 			try:
-				checker = checker_module()
 				assert issubclass(checker, Checker)
 				if not checker.is_running():
 					pass
