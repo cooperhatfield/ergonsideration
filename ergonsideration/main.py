@@ -18,7 +18,7 @@ def dynamic_import(py_path):
     return activated_module
 
 def parse_config(config_file):
-	filepath = glob.glob(f'/Task Config/{config_file}')
+	filepath = config_file
 	with open(filepath) as file:
 		config_data = json.load(file)
 	checker_config, notification_config, schedule_config = config_data['checker_config'], config_data['notification_config'], config_data['schedule_config']
