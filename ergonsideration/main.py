@@ -2,9 +2,9 @@ import glob
 import importlib
 import json
 
-from calendar import Calendar
-from task import Task
-from checker import Checker
+from ergonsideration.calendar import Calendar
+from ergonsideration.task import Task
+from ergonsideration.checker import Checker
 
 def dynamic_import(py_path):
 	''' from https://stackoverflow.com/questions/57878744/how-do-i-dynamically-import-all-py-files-from-a-given-directory-and-all-sub-di

@@ -1,7 +1,7 @@
 import multiprocessing
 
-from checker import Checker
-from calendar import Calendar
+from ergonsideration.checker import Checker
+from ergonsideration.calendar import Calendar
 import notify
 
 class Task:

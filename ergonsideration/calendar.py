@@ -1,6 +1,6 @@
 import sched
 
-from task import Task
+from ergonsideration.task import Task
 
 class Calendar:
 	'''This class will have tasks registered, and run those tasks at the proper intervals.
