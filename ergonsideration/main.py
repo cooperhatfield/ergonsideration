@@ -24,7 +24,9 @@ def parse_config(config_file):
 	checker_config, notification_config, schedule_config = config_data['checker_config'], config_data['notification_config'], config_data['schedule_config']
 	return checker_config, notification_config, schedule_config
 
-def register_new_task(config_file):
+def load_task(config_file):
+	''' Load a task from its config file, create the object, and set up the relevant checkers.
+	'''
 	checker_config, notification_config, schedule_config = parse_config(config_file)
 	checkers = []
 	for checker in checker_config:
