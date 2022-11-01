@@ -56,4 +56,4 @@ class Task:
 				print(f'Module {checker.get_name()} is not a proper child of Checker class, ignored.')
 			except NotImplementedError:
 				print(f'Module {checker.get_name()} doesn\'t implement a necessary function from the Checker class, ignored.')
-	return False
+		return False
