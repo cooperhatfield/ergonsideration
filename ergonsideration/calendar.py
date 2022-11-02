@@ -1,26 +1,21 @@
 import sched
 
-class Calendar:
-	'''This class will have tasks registered, and run those tasks at the proper intervals.
+#class Calendar:
+'''This class will have tasks registered, and run those tasks at the proper intervals.
+'''
+_instance = None
+
+def register_task(delay, task_action, priority=0):
+	''' Given a task, register its task action (usually `run_task` function) to run after a 
+	delay.
 	'''
-	_instance = None
+	_instance.enter(delay, priority, task_action)
 
-	def __init__(self):
-		''' Create a singleton instance of the calendar class.
-		'''
-		if _instance is not None:
-			return self.instance
-		self.scheduler = sched.scheduler()
-		_instance = self
+def run_schedule():
+	''' Start the schedule with the registered tasks. This will block execution until a task is
+	run.
+	'''
+	_instance.run()
 
-	def register_task(self, delay, task_action):
-		''' Given a task, register its task action (usually `run_task` function) to run after a 
-		delay.
-		'''
-		self.scheduler.enter(delay, task_action)
-
-	def run_schedule(self):
-		''' Start the schedule with the registered tasks. This will block execution until a task is
-		run.
-		'''
-		self.scheduler.run()
+if _instance is None:
+	_instance = sched.scheduler()

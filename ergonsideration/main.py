@@ -1,23 +1,29 @@
 import glob
 import importlib
 import json
+import os
 
-from ergonsideration.calendar import Calendar
+import ergonsideration.calendar as calendar
 from ergonsideration.task import Task
 from ergonsideration.checker import Checker
 
-def dynamic_import(py_path):
+package_directory = os.path.dirname(os.path.abspath(__file__))
+
+def dynamic_import(checker_name, py_path):
 	''' from https://stackoverflow.com/questions/57878744/how-do-i-dynamically-import-all-py-files-from-a-given-directory-and-all-sub-di
 	Load a python file given by filename `py_path` as a module. WARNING: this could be very 
 	dangerous. Make sure you verify EVERY module is safe before using this!
 	'''
-	module_spec = importlib.util.spec_from_file_location(module_name, py_path)
+	module_spec = importlib.util.spec_from_file_location(checker_name, py_path)
 	module = importlib.util.module_from_spec(module_spec)
 	module_spec.loader.exec_module(module)
 	
-	activated_module = module()
-	activated_module.set_name(py_path)
-	return activated_module
+	expected_attributes = ['Checker', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__']
+	class_name = [attr for attr in dir(module) if attr not in expected_attributes][0]
+	active_module = getattr(module, class_name)
+	checker = active_module()
+	checker.set_name(checker_name)
+	return checker
 
 def parse_config(config_file):
 	''' Parse a config file defining an task. The structure of the file is defined elsewhere, but
@@ -35,9 +41,12 @@ def load_task(config_file):
 	'''
 	checker_config, notification_config, schedule_config = parse_config(config_file)
 	checkers = []
-	for checker in checker_config:
-		checker_file = glob.glob(f'/Checkers/{checker}')
-		checkers.append(dynamic_import(checker_file))
+	for checker_name in checker_config['checkers']:
+		checker_file = package_directory + f'\\Checkers\\{checker_name}'
+		if not os.path.isfile(checker_file):
+			print(f'Checker {checker_name} not found, ignoring.')
+		else:
+			checkers.append(dynamic_import(checker_name, checker_file))
 	task = Task(notification_config, schedule_config, checkers)
 	return task
 
@@ -45,12 +54,12 @@ def setup_calendar():
 	''' Basically the program entry point; this creates the scheduling calendar, loads tasks from
 	all current configs, registers the tasks with the calendar, and runs it.
 	'''
-	calendar = Calendar()
-	for config_file in glob.glob(f'/Task Config/*.txt'):
-		print(f'loading file {config_file}')
+	for config_file in glob.glob(package_directory + '\\Task Configs\\*.txt'):
+		print(f'Loading file {config_file[len(package_directory) + 14:]}')
 		task = load_task(config_file)
-		calendar.register_task(task)
-	print(calendar.queue())
+		task_action = task.run_task
+		task_delay = task.schedule_config['interval']
+		calendar.register_task(task_delay, task_action)
 	calendar.run_schedule()
 
 
