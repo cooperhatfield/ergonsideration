@@ -11,6 +11,7 @@ TODO:
   - Support for button responses
   - More program-specific customization to notifications
 - Thread checker code with a timeout
+- Tests
 
 ## Usage
 
