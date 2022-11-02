@@ -36,21 +36,22 @@ class Task:
 		- optional behavior for ignoring, quitting, or assuming the user is busy when a checker
 			times out
 		'''
-		busy = multiprocessing.Value(bool, False)
+		busy = multiprocessing.Value('i', False)
 		for checker in self.checkers:
 			try:
-				assert issubclass(checker, Checker)
+				assert issubclass(type(checker), Checker)
 				if not checker.is_running():
 					pass
 				else:
-					p = multiprocessing.Process(target=checker.get_busy_status, args=busy)
-					p.start()
-					p.join(checker.get_timeout_time())
-					if p.is_alive():
+					#p = multiprocessing.Process(target=checker.get_busy_status, args=(busy,))
+					#p.start()
+					#p.join(checker.get_timeout_time())
+					#if p.is_alive():
+					checker.get_busy_status(busy)
+					if False:
 						print(f'Checker {checker.get_name()} timed out when getting busy status. ignored.')
 						p.terminate()
-					elif busy:
-						return True
+					return bool(busy.value)
 			except AssertionError:
 				print(f'Module {checker.get_name()} is not a proper child of Checker class, ignored.')
 			except NotImplementedError:
