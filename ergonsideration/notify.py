@@ -2,18 +2,16 @@
 import winsdk.windows.ui.notifications as notifications
 import winsdk.windows.data.xml.dom as dom
 
-default_Accept_Snooze = f'<actions>\
-						       <action\
-						           content="Accept"\
-						           imageUri="Assets/Icons/accept.png"\
-						           arguments="accept"\
-						           activationType="background"/>\
-						       <action\
-						           content="Snooze"\
-						           imageUri="Assets/Icons/snooze.png"\
-						           arguments="snooze"\
-						           activationType="background"/>\
-						   </actions>'
+default_Accept_Snooze = '''<actions>
+						       <action
+						           content="Start"
+						           arguments="accept"
+						           activationType="background"/>
+						       <action
+						           content="Snooze"
+						           arguments="snooze"
+						           activationType="background"/>
+						   </actions>'''
 
 notification_config_v1 = {'visual_config': {
 							'task_name': 'example',
@@ -39,10 +37,11 @@ def send_win_toast_notification(notification_config):
 	Create a windows 'Toast' notification with content from the `notification_config` dict, and display it.
 	TODO:
 	- add support for button results
-	- support other button configurations
 	'''
+	import sys
+
 	nManager = notifications.ToastNotificationManager
-	notifier = nManager.create_toast_notifier()
+	notifier = nManager.create_toast_notifier(sys.executable)
 
 	match notification_config:
 		case {'visual_config': {'task_name': task_name, 'title': task_title, 'content': task_content, 'template': task_template},
@@ -50,19 +49,22 @@ def send_win_toast_notification(notification_config):
 			pass
 	if task_buttons == 'default_Accept_Snooze':
 		task_buttons = default_Accept_Snooze
-
-	#define your notification as string
-	visuals = f'\
-	    <visual>\
-	        <binding template=\'{task_template}\'>\
-	            <text>{task_title}</text>\
-	            <text>{task_content}</text>\
-	        </binding>\
-	    </visual>'
 	
 	buttons = task_buttons
 
-	task_string = '<toast>' + visuals + buttons + '</toast>'
+	task_string = '''
+	<toast duration="short">
+
+        <visual>
+            <binding template='ToastGeneric'>
+                <text>{title}</text>
+                <text>{content}</text>
+            </binding>
+        </visual>
+
+        {buttons}
+
+    </toast>'''.format(title=task_title, content=task_content, buttons=task_buttons)
 
 	#convert notification to an XmlDocument
 	xml_doc = dom.XmlDocument()
