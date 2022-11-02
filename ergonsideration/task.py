@@ -13,7 +13,6 @@ class Task:
 		self.notification_config = notification_config
 		self.schedule_config = schedule_config
 		self.checkers = checkers
-		self.calendar = Calendar()
 
 	def run_task(self):
 		''' Check if the user is busy. If not, then send a notification.
@@ -27,7 +26,7 @@ class Task:
 			notify.send_notification(self.notification_config)
 		# check notification button press for snooze or what not
 		delay = self.schedule_config['interval']
-		self.calendar.register_task(delay, self.run_task)
+		calendar.register_task(delay, self.run_task)
 
 	def is_busy(self):
 		''' Check with each registered checker to see if the user is busy. If a checker times out,
