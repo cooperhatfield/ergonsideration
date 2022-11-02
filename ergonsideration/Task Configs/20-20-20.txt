@@ -1,4 +1,4 @@
-{"name": "example",
+{"name": "20-20-20",
 "schedule_config":
     {
     "interval": 1200,
