@@ -1,8 +1,8 @@
 import multiprocessing
 
 from ergonsideration.checker import Checker
-from ergonsideration.calendar import Calendar
-import notify
+import ergonsideration.calendar as calendar
+import ergonsideration.notify as notify
 
 class Task:
 	''' A task is an object representing a specific action (theoretically an ergonomic reminder),
