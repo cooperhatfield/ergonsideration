@@ -42,7 +42,7 @@ def send_win_toast_notification(notification_config):
 	- support other button configurations
 	'''
 	nManager = notifications.ToastNotificationManager
-	notifier = nManager.create_toast_notifier();
+	notifier = nManager.create_toast_notifier()
 
 	match notification_config:
 		case {'visual_config': {'task_name': task_name, 'title': task_title, 'content': task_content, 'template': task_template},
