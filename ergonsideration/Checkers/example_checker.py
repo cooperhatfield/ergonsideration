@@ -5,6 +5,7 @@ class ExampleChecker(Checker):
 		return True
 
 	def get_busy_status(self, busy):
-		busy = True
+		print('Checking example_checker...')
+		busy.value = False
 
 	
