@@ -1,0 +1,6 @@
+# ignore all configs
+*
+
+# except examples and gitignore
+!.gitignore
+!20-20-20.txt
