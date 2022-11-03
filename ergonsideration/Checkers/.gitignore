@@ -1,0 +1,7 @@
+# ignore all checkers
+*
+
+# exclude examples and gitignore
+!.gitignore
+!example_checker.py
+!win_teams_status.py
