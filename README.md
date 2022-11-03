@@ -1,7 +1,7 @@
-# ergonsideration
+# ergonsideration (Ergonomics + Consideration)
 Schedule and status based ergonomics reminder. Designed to support python scripts to check if a program is running, and to check if the user is "busy" in that program and should not be disturbed.
 
-Included is a simple "Checker" to see if the user's status is "Busy" or "Do Not Disturb" on Microsoft Teams.
+Included is a simple "Checker" to see if the user's status is "Busy" or "Do Not Disturb" on Microsoft Teams. I'll publish other checkers I make in [checkerLibrary](https://github.com/cooperhatfield/checkerLibrary)
 
 Due to the requirement of running arbitrary code in checkers, the library is designed to have a simple interface in task creation and checker objects, so that users can verify the legitimacy of shared tasks and checkers.
 
