@@ -32,7 +32,7 @@ def send_notification(notification_config):
 	'''
 	send_win_toast_notification(notification_config)
 
-def send_win_toast_notification(notification_config):
+def send_win_toast_notification(notification_config, *, clear_previous=True):
 	''' from https://stackoverflow.com/questions/64230231/how-can-i-can-send-windows-10-notifications-with-python-that-has-a-button-on-the
 	Create a windows 'Toast' notification with content from the `notification_config` dict, and display it.
 	TODO:
@@ -70,9 +70,10 @@ def send_win_toast_notification(notification_config):
 	xml_doc = dom.XmlDocument()
 	xml_doc.load_xml(task_string)
 
-	#clear previous toasts
-	history = nManager.get_history()
-	history.clear(sys.executable)
+	if clear_previous:
+		#clear previous toasts
+		history = nManager.get_history()
+		history.clear(sys.executable)
 
 	#display notification
 	notifier.show(notifications.ToastNotification(xml_doc))
