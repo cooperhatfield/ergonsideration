@@ -70,5 +70,9 @@ def send_win_toast_notification(notification_config):
 	xml_doc = dom.XmlDocument()
 	xml_doc.load_xml(task_string)
 
+	#clear previous toasts
+	history = nManager.get_history()
+	history.clear(sys.executable)
+
 	#display notification
 	notifier.show(notifications.ToastNotification(xml_doc))
