@@ -28,7 +28,7 @@ Users wishing to create their own task should make a new text file in the "ergon
 {"name": "Example",
 "schedule_config":
     {
-    "interval": 10,
+    "interval": 1200,
     "length": 20
     },
 "notification_config":
