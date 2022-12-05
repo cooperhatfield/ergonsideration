@@ -53,7 +53,7 @@ Users wishing to create their own task should make a new text file in the "ergon
 - `name`: String, currently unused
 - `schedule_config`: Dict containing properties relating to the schedule of the Task,
   - `interval`: Integer, the number of seconds between runs of the task. A value of 600 means the task will run every 10 minutes.
-  - `length`: Integer, currently unused. _Will_ be the time between the start and end notifications of the task.
+  - `length`: Integer, if this is greater than 0, a notification will be send after `length` seconds to mark the end of the task.
 - `notification_config`: Dict containing properties of the task's notification,
   - `visual_config`: Dict containing properties of the notification's layout and text,
     - `task_name`: String, currently unused.
