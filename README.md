@@ -6,6 +6,7 @@ Included is a simple "Checker" to see if the user's status is "Busy" or "Do Not 
 Due to the requirement of running arbitrary code in checkers, the library is designed to have a simple interface in task creation and checker objects, so that users can verify the legitimacy of shared tasks and checkers.
 
 TODO:
+- Create executable release to package modules and python 
 - Flesh out notifications
   - Support for other OS's
   - Support for button responses
@@ -15,9 +16,9 @@ TODO:
 
 ## Usage
 
-Users can create custom "Tasks", which are configured to create a notification at a certain interval if the user is not busy. The user is considered "busy" or "available" based on scripts (called "Checkers") that check other programs for a status. For example, a user may configure a task which reminds them to look away from the screen every 20 minutes. For this task, they might add the "win_teams_status" checker, in which case the notification will not pop up if the user's is busy on Teams.
+The program can be run by calling the `ergonsideration.main.setup_calendar()` function. Doing so will load all config files in the "ergonsideration/ergonsideration/Task Configs/" folder as tasks. In the future I would like to migrate this to an executable, but for now, clone the repo and run it from the terminal.
 
-The program can be run by calling the `ergonsideration.main.setup_calendar()` function. Doing so will load all config files in the "ergonsideration/ergonsideration/Task Configs/" folder as tasks. 
+Users can create custom "Tasks", which are configured to create a notification at a certain interval if the user is not busy. The user is considered "busy" or "available" based on scripts (called "Checkers") that check other programs for a status. For example, a user may configure a task which reminds them to look away from the screen every 20 minutes. For this task, they might add the "win_teams_status" checker, in which case the notification will not pop up if the user's is busy on Teams.
 
 ## Implementing New Tasks
 
