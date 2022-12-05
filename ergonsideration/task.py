@@ -19,14 +19,30 @@ class Task:
 		TODO:
 		- add logic for buttons on the notification
 		- support for snoozing
-		- support for task ending notifications
 		'''
 		user_is_busy = self.is_busy()
 		if not user_is_busy:
 			notify.send_notification(self.notification_config)
+			task_length = self.schedule_config.get('length', 0)
+			# set up a notification to end the task, if configured
+			if task_length > 0:
+				calendar.register_task(task_length, self.schedule_end_notification)
 		# check notification button press for snooze or what not
 		delay = self.schedule_config['interval']
 		calendar.register_task(delay, self.run_task)
+
+	def schedule_end_notification(self):
+		''' If configured, send a notification signaling the end of the task. This assumes the user
+			isn't busy (if they were, the initial notification would have not been sent). Right now
+			this simple appends some text onto the already set message, in the future maybe 
+			specific ending messages can be configured.
+			
+			TODO:
+			- configure ending messages
+			'''
+		end_config = self.notification_config
+		end_config['visual_config']['content'] = "Done!"
+		notify.send_notification(end_config)
 
 	def is_busy(self):
 		''' Check with each registered checker to see if the user is busy. If a checker times out,
