@@ -1,23 +1,22 @@
-# from https://stackoverflow.com/questions/64230231/how-can-i-can-send-windows-10-notifications-with-python-that-has-a-button-on-the
-import winsdk.windows.ui.notifications as notifications
-import winsdk.windows.data.xml.dom as dom
+import sys
 
-default_Accept_Snooze = '''<actions>
-						       <action
-						           content="Start"
-						           arguments="accept"
-						           activationType="background"/>
-						       <action
-						           content="Snooze"
-						           arguments="snooze"
-						           activationType="background"/>
-						   </actions>'''
-default_Accept = '''<actions>
-				        <action
-				            content="Accept"
-				            arguments="accept"
-				            activationType="background"/>
-				    </actions>'''
+default_Accept_Snooze_Toast = '''<actions>
+							        <action
+							            content="Start"
+							            arguments="accept"
+							            activationType="background"/>
+							        <action
+							            content="Snooze"
+							            arguments="snooze"
+							            activationType="background"/>
+							    </actions>'''
+default_Accept_Toast = '''<actions>
+					         <action
+					             content="Accept"
+					             arguments="accept"
+					             activationType="background"/>
+					     </actions>'''
+
 
 notification_config_v1 = {'visual_config': {
 							'task_name': 'example',
@@ -26,7 +25,7 @@ notification_config_v1 = {'visual_config': {
 							'template': 'toastGeneric'
 							},
 						  'button_config': {
-						  	'button_group': default_Accept_Snooze
+						  	'button_group': default_Accept_Snooze_Toast
 						  }
 						}
 
