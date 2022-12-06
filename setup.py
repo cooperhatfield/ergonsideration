@@ -1,4 +1,5 @@
 import setuptools
+import sys
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -17,5 +18,5 @@ setuptools.setup(
     },
     license='',
     packages=['ergonsideration'],
-    install_requires=['winsdk', 'importlib'],
+    install_requires= ['importlib'] + ['winsdk'] if sys.platform.startswith('win') else [],
 )
