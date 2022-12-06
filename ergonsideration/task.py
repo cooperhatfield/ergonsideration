@@ -40,8 +40,17 @@ class Task:
 			TODO:
 			- configure ending messages
 			'''
-		end_config = self.notification_config
-		end_config['visual_config']['content'] = "Done!"
+		end_config = {"visual_config":
+						{
+						"task_name": self.notification_config['visual_config']['task_name'],
+						"title": self.notification_config['visual_config']['task_name'],
+						"content": "Done!",
+						"template": self.notification_config['visual_config']['task_name']
+						},
+					  "button_config":
+						{"button_group": "default_Accept"}
+					}
+
 		notify.send_notification(end_config)
 
 	def is_busy(self):
