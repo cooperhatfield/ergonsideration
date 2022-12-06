@@ -39,6 +39,7 @@ Users wishing to create their own task should make a new text file in the "ergon
         "title": "Title of Notification",
 	"content": "Notification body text.",
         "template": "toastGeneric"
+	"timeout_time": 5
         },
     "button_config":
         {"button_group": "default_Accept_Snooze"}
@@ -59,9 +60,10 @@ Users wishing to create their own task should make a new text file in the "ergon
     - `task_name`: String, currently unused.
     - `title`: String, title to be displayed on the notification.
     - `content`: String, text content to display in the body of the notification.
-    - `template`: String, should be a string defined as a template [by Microsoft](https://learn.microsoft.com/en-us/previous-versions/windows/apps/hh779727(v=win.10)). Warning! Changing this is untested, doing so may not work...
+    - `template`: String, only used on Windows, should be a string defined as a template [by Microsoft](https://learn.microsoft.com/en-us/previous-versions/windows/apps/hh779727(v=win.10)). Warning! Changing this is untested, doing so may not work...
+    - `timeout_time`: Integer, only used on OSX, the number of seconds to display the alert before automatically closing.
   - `button_config`: Dict containing properties of the notifications buttons,
-    - `button_group`: String, this should be either "default_Accept_Snooze" for the default "Accept" and "Snooze" buttons built in to ergonsideration, or [valid XML content](https://learn.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-action) describing the button actions. Currently there is no way to actually link any functionality to buttons, though.
+    - `button_group`: String, this should be either "default_Accept_Snooze" for the default "Accept" and "Snooze" buttons built in to ergonsideration, or "default_Accept" for just "Accept". On windows, you can supply [valid XML content](https://learn.microsoft.com/en-us/uwp/schemas/tiles/toastschema/element-action) describing the button actions, and on OSX you can supply a formatted list of buttons as described [here](https://developer.apple.com/library/archive/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_cmds.html#//apple_ref/doc/uid/TP40000983-CH216-SW11). Currently there is no way to actually link any functionality to buttons, though.
 - `checker_config`: Dict containing properties of the checkers which this task will use,
   - `checkers`: List of names of checkers to use for this task.
   
