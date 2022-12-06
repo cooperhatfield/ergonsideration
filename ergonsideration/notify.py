@@ -31,10 +31,11 @@ notification_config_v1 = {'visual_config': {
 						}
 
 def send_notification(notification_config):
-	''' Choose the right kind of notification to send. Currently only supports 
-	Windows "Toast" notifications.
+	''' Choose the right kind of notification to send. Currently only supports Windows "Toast" 
+		notifications.
+
 	TODO:
-	- check OS and send other types of notifications
+	- send other types of notifications
 	'''
 	send_win_toast_notification(notification_config)
 def send_osx_notification(notification_config, *, clear_previous=True):
