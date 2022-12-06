@@ -37,7 +37,15 @@ def send_notification(notification_config):
 	TODO:
 	- send other types of notifications
 	'''
-	send_win_toast_notification(notification_config)
+	if sys.platform.startswith('win'):
+		send_win_toast_notification(notification_config)
+	elif sys.platform.startswith('darwin'):
+
+	elif sys.platform.startswith('linux'):
+		raise RuntimeError(f"Notifications not supported on {sys.platform}.")
+	else:
+		raise RuntimeError(f"Notifications not supported on {sys.platform}.")
+
 def send_osx_notification(notification_config, *, clear_previous=True):
 	''' from https://stackoverflow.com/questions/17651017/python-post-osx-notification
 		Create an OSX notification.
