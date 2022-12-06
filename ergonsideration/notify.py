@@ -37,6 +37,25 @@ def send_notification(notification_config):
 	- check OS and send other types of notifications
 	'''
 	send_win_toast_notification(notification_config)
+def send_osx_notification(notification_config, *, clear_previous=True):
+	''' from https://stackoverflow.com/questions/17651017/python-post-osx-notification
+		Create an OSX notification.
+
+		TODO:
+		- support button effects
+		- support custom picture
+		- support sound(?)
+	'''
+	text = notification_config['visual_config']['content']
+	title = notification_config['visual_config']['title']
+	timeout_time = notification_config['visual_config'].getdefault('timeout_time', 5)
+	if notification_config['button_config']['button_group'] == 'default_Accept_Snooze':
+		buttons_text = '{"Snooze", "Accept"}'
+	elif notification_config['button_config']['button_group'] == 'default_Accept':
+		buttons_text = '{"Accept"}' 
+
+    os.system(f'osascript -e \'display alert "{title}" message "{text}" buttons {buttons_text} giving up after {timeout_time}')
+
 
 def send_win_toast_notification(notification_config, *, clear_previous=True):
 	''' from https://stackoverflow.com/questions/64230231/how-can-i-can-send-windows-10-notifications-with-python-that-has-a-button-on-the
@@ -44,7 +63,9 @@ def send_win_toast_notification(notification_config, *, clear_previous=True):
 	TODO:
 	- add support for button results
 	'''
-	import sys
+	# from https://stackoverflow.com/questions/64230231/how-can-i-can-send-windows-10-notifications-with-python-that-has-a-button-on-the
+	import winsdk.windows.ui.notifications as notifications
+	import winsdk.windows.data.xml.dom as dom
 
 	nManager = notifications.ToastNotificationManager
 	notifier = nManager.create_toast_notifier(sys.executable)
@@ -55,9 +76,9 @@ def send_win_toast_notification(notification_config, *, clear_previous=True):
 			pass
 	match notification_config['button_config']['button_group']:
 		case 'default_Accept_Snooze':
-			task_buttons = default_Accept_Snooze
+			task_buttons = default_Accept_Snooze_Toast
 		case 'default_Accept':
-			task_buttons = default_Accept
+			task_buttons = default_Accept_Toast
 		case _:
 			pass
 
