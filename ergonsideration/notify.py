@@ -1,4 +1,5 @@
 import sys
+import os
 
 default_Accept_Snooze_Toast = '''<actions>
 							        <action
@@ -39,7 +40,7 @@ def send_notification(notification_config):
 	if sys.platform.startswith('win'):
 		send_win_toast_notification(notification_config)
 	elif sys.platform.startswith('darwin'):
-
+		send_osx_notification(notification_config)
 	elif sys.platform.startswith('linux'):
 		raise RuntimeError(f"Notifications not supported on {sys.platform}.")
 	else:
@@ -62,7 +63,7 @@ def send_osx_notification(notification_config, *, clear_previous=True):
 	elif notification_config['button_config']['button_group'] == 'default_Accept':
 		buttons_text = '{"Accept"}' 
 
-    os.system(f'osascript -e \'display alert "{title}" message "{text}" buttons {buttons_text} giving up after {timeout_time}')
+	os.system(f'osascript -e \'display alert "{title}" message "{text}" buttons {buttons_text} giving up after {timeout_time}\'')
 
 
 def send_win_toast_notification(notification_config, *, clear_previous=True):
