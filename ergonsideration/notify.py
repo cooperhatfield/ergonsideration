@@ -57,7 +57,7 @@ def send_osx_notification(notification_config, *, clear_previous=True):
 	'''
 	text = notification_config['visual_config']['content']
 	title = notification_config['visual_config']['title']
-	timeout_time = notification_config['visual_config'].getdefault('timeout_time', 5)
+	timeout_time = notification_config['visual_config'].get('timeout_time', 5)
 	if notification_config['button_config']['button_group'] == 'default_Accept_Snooze':
 		buttons_text = '{"Snooze", "Accept"}'
 	elif notification_config['button_config']['button_group'] == 'default_Accept':
