@@ -54,7 +54,7 @@ def setup_calendar():
 	''' Basically the program entry point; this creates the scheduling calendar, loads tasks from
 	all current configs, registers the tasks with the calendar, and runs it.
 	'''
-	for config_file in glob.glob(package_directory + '\\Task Configs\\*.txt'):
+	for config_file in glob.glob(os.path.join(package_directory, 'Task Configs', '*.txt')):
 		print(f'Loading file {config_file[len(package_directory) + 14:]}')
 		task = load_task(config_file)
 		task_action = task.run_task
