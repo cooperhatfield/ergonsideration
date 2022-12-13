@@ -42,7 +42,7 @@ def load_task(config_file):
 	checker_config, notification_config, schedule_config = parse_config(config_file)
 	checkers = []
 	for checker_name in checker_config['checkers']:
-		checker_file = package_directory + f'\\Checkers\\{checker_name}'
+		checker_file = os.path.join(package_directory, 'Checkers', checker_name)
 		if not os.path.isfile(checker_file):
 			print(f'Checker {checker_name} not found, ignoring.')
 		else:
