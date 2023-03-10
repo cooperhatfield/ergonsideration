@@ -6,3 +6,9 @@ ergonsideration.egg-info/SOURCES.txt
 ergonsideration.egg-info/top_level.txt
 ergonsideration/__pycache__/__init__.cpython-310.pyc
 *.pyc
+
+ergonsideration/build/*
+ergonsideration/build
+ergonsideration/dist/*
+ergonsideration/dist
+ergonsideration/interface.spec
