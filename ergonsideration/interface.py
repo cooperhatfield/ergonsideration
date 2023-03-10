@@ -54,7 +54,7 @@ class Application(tk.Frame):
             self.task_entries.append(TaskListEntry(self.checker_frame, content))
 
         # start button
-        self.start_button = tk.Button(self, text='Start', command=self.list_tasks)
+        self.start_button = tk.Button(self, text='Start', command=self.start_schedule)
         self.start_button.grid(ipadx=20, padx=10, pady=20, column=0)
 
         # status label
@@ -66,7 +66,7 @@ class Application(tk.Frame):
         self.quitButton.grid(ipadx=10, pady=20, row=100)
 
 
-    def list_tasks(self):
+    def start_schedule(self):
         tasks = [entry.task for entry in self.task_entries if entry.enabled.get() == 1]
         '''
         name = ''
