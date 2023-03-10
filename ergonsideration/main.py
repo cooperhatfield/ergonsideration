@@ -67,6 +67,15 @@ def setup_calendar():
 		calendar.register_task(task_delay, task_action)
 	calendar.run_schedule()
 
+def setup_calendar_from_interface(enabled_tasks):
+	''' Basically the program entry point; this creates the scheduling calendar, loads tasks selected
+	by the user, registers the tasks with the calendar, and runs it.
+	'''
+	for task in enabled_tasks:
+		task_action = task.run_task
+		task_delay = task.schedule_config['interval']
+		calendar.register_task(task_delay, task_action)
+	calendar.run_schedule()
 
 
 
