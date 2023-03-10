@@ -8,7 +8,6 @@ Due to the requirement of running arbitrary code in checkers, the library is des
 TODO:
 - Create executable release to package modules and python 
 - Flesh out notifications
-  - Support for other OS's
   - Support for button responses
   - More program-specific customization to notifications
 - Thread checker code with a timeout
@@ -16,7 +15,10 @@ TODO:
 
 ## Usage
 
-The program can be run by calling the `ergonsideration.main.setup_calendar()` function. Doing so will load all config files in the "ergonsideration/ergonsideration/Task Configs/" folder as tasks. In the future I would like to migrate this to an executable, but for now, clone the repo and run it from the terminal.
+_NEW_
+The program can be run by running the `interface.py` script, using the command `python interface.py`. This launches the interface, and allows for selection of specific tasks to load and use from those in the "ergonsideration/ergonsideration/Task Configs/" folder. The plan in still to package it into a nice executable file, but that still is in the works.
+
+The program can still also be run by calling the `ergonsideration.main.setup_calendar()` function.
 
 Users can create custom "Tasks", which are configured to create a notification at a certain interval if the user is not busy. The user is considered "busy" or "available" based on scripts (called "Checkers") that check other programs for a status. For example, a user may configure a task which reminds them to look away from the screen every 20 minutes. For this task, they might add the "win_teams_status" checker, in which case the notification will not pop up if the user's is busy on Teams.
 
@@ -51,7 +53,7 @@ Users wishing to create their own task should make a new text file in the "ergon
 }
 ```
 
-- `name`: String, currently unused
+- `name`: String, how the task will look in the interface list.
 - `schedule_config`: Dict containing properties relating to the schedule of the Task,
   - `interval`: Integer, the number of seconds between runs of the task. A value of 600 means the task will run every 10 minutes.
   - `length`: Integer, if this is greater than 0, a notification will be send after `length` seconds to mark the end of the task.
