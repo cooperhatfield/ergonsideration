@@ -64,17 +64,18 @@ class Application(tk.Frame):
             content = {'text': task_name, 'default_state': 0, 'task': task}
             self.task_entries.append(TaskListEntry(self.checker_frame, content))
 
+        
+        # status label
+        self.status_label = tk.Label(self, text='Waiting for configuration...', font=("TkDefaultFont", 10))
+        self.status_label.grid(padx=20)
+
         # start button
         self.start_button = tk.Button(self, text='Start', command=self.start_schedule)
-        self.start_button.grid(ipadx=20, padx=10, pady=20, column=0)
-
-        # status label
-        #self.status_label = tk.Label(self, text='Waiting for configuration...', font=("TkDefaultFont", 10))
-        #self.status_label.grid(padx=20)
+        self.start_button.grid(ipadx=20, padx=10, pady=10, column=0)
 
         # quit button
         self.quitButton = tk.Button(self, text='Quit', command=self.quit)
-        self.quitButton.grid(ipadx=10, pady=20, row=100)
+        self.quitButton.grid(ipadx=10, pady=10, row=100)
 
 
     def start_schedule(self):
@@ -83,6 +84,9 @@ class Application(tk.Frame):
 
         # start new daemon thread with schedule
         self.schedule_thread = Threader(tasks, name='Ergonsideration-Schedule')
+
+        # update status label
+        self.status_label.configure(text='Running!')
 
 app = Application()
 app.master.title('Ergonsideration Configuration')
