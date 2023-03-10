@@ -9,10 +9,11 @@ class Task:
 	such as 'get up to stretch every hour'. A task object will contain the relevant checkers, the
 	configuration for when to run the task, and the configuration for the task's notification.
 	'''
-	def __init__(self, notification_config, schedule_config, checkers):
+	def __init__(self, notification_config, schedule_config, checkers, name):
 		self.notification_config = notification_config
 		self.schedule_config = schedule_config
 		self.checkers = checkers
+		self.name = name
 
 	def run_task(self):
 		''' Check if the user is busy. If not, then send a notification.
