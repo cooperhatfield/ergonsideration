@@ -1,6 +1,17 @@
 import tkinter as tk
+import threading
 
 import ergonsideration.main as main
+
+class Threader(threading.Thread):
+    def __init__(self, tasks, *args, **kwargs):
+        self.tasks = tasks
+        threading.Thread.__init__(self, *args, **kwargs)
+        self.daemon = True
+        self.start()
+
+    def run(self):
+        main.setup_calendar_from_interface(self.tasks)
 
 class TaskListEntry(tk.Frame):
     def __init__(self, master=None, content=None):
@@ -68,13 +79,10 @@ class Application(tk.Frame):
 
     def start_schedule(self):
         tasks = [entry.task for entry in self.task_entries if entry.enabled.get() == 1]
-        '''
-        name = ''
-        for task in tasks:
-            name = name + task.name
-        self.task_list = tk.Label(self, text=name)
-        self.task_list.grid(row=0, column=1)'''
-        main.setup_calendar_from_interface(tasks)
+        #main.setup_calendar_from_interface(tasks)
+
+        # start new daemon thread with schedule
+        self.schedule_thread = Threader(tasks, name='Ergonsideration-Schedule')
 
 app = Application()
 app.master.title('Ergonsideration Configuration')
