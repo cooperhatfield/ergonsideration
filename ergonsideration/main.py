@@ -18,7 +18,8 @@ def dynamic_import(checker_name, py_path):
 	module = importlib.util.module_from_spec(module_spec)
 	module_spec.loader.exec_module(module)
 	
-	expected_attributes = ['Checker', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__']
+	expected_attributes = ['Checker', '__builtins__', '__cached__', '__doc__', '__file__', \
+							'__loader__', '__name__', '__package__', '__spec__']
 	class_name = [attr for attr in dir(module) if attr not in expected_attributes][0]
 	active_module = getattr(module, class_name)
 	checker = active_module()
@@ -33,8 +34,11 @@ def parse_config(config_file):
 	filepath = config_file
 	with open(filepath) as file:
 		config_data = json.load(file)
-	checker_config, notification_config, schedule_config = config_data['checker_config'], config_data['notification_config'], config_data['schedule_config']
-	return checker_config, notification_config, schedule_config
+	name, checker_config, notification_config, schedule_config = config_data['name'], \
+																 config_data['checker_config'], \
+																 config_data['notification_config'], \
+																 config_data['schedule_config']
+	return name, checker_config, notification_config, schedule_config
 
 def load_task(config_file):
 	''' Load a task from its config file, create the object, and set up the relevant checkers.
