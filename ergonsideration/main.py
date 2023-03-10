@@ -39,7 +39,7 @@ def parse_config(config_file):
 def load_task(config_file):
 	''' Load a task from its config file, create the object, and set up the relevant checkers.
 	'''
-	checker_config, notification_config, schedule_config = parse_config(config_file)
+	task_name, checker_config, notification_config, schedule_config = parse_config(config_file)
 	checkers = []
 	for checker_name in checker_config['checkers']:
 		checker_file = os.path.join(package_directory, 'Checkers', checker_name)
@@ -47,7 +47,7 @@ def load_task(config_file):
 			print(f'Checker {checker_name} not found, ignoring.')
 		else:
 			checkers.append(dynamic_import(checker_name, checker_file))
-	task = Task(notification_config, schedule_config, checkers)
+	task = Task(notification_config, schedule_config, checkers, task_name)
 	return task
 
 def setup_calendar():
