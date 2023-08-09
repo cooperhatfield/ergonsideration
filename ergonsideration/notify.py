@@ -30,7 +30,7 @@ notification_config_v1 = {'visual_config': {
 						  }
 						}
 
-def send_notification(notification_config):
+def send_notification(notification_config, *, window_handle=None):
 	''' Choose the right kind of notification to send. Currently only supports Windows "Toast" 
 		notifications.
 
@@ -38,7 +38,7 @@ def send_notification(notification_config):
 	- send other types of notifications
 	'''
 	if sys.platform.startswith('win'):
-		send_win_toast_notification(notification_config)
+		send_win_toast_notification(notification_config, window_handle=window_handle)
 	elif sys.platform.startswith('darwin'):
 		send_osx_notification(notification_config)
 	elif sys.platform.startswith('linux'):
@@ -66,7 +66,7 @@ def send_osx_notification(notification_config, *, clear_previous=True):
 	os.system(f'osascript -e \'display alert "{title}" message "{text}" buttons {buttons_text} giving up after {timeout_time}\'')
 
 
-def send_win_toast_notification(notification_config, *, clear_previous=True):
+def send_win_toast_notification(notification_config, *, clear_previous=True, window_handle=None):
 	''' from https://stackoverflow.com/questions/64230231/how-can-i-can-send-windows-10-notifications-with-python-that-has-a-button-on-the
 	Create a windows 'Toast' notification with content from the `notification_config` dict, and display it.
 	TODO:
@@ -75,9 +75,21 @@ def send_win_toast_notification(notification_config, *, clear_previous=True):
 	# from https://stackoverflow.com/questions/64230231/how-can-i-can-send-windows-10-notifications-with-python-that-has-a-button-on-the
 	import winsdk.windows.ui.notifications as notifications
 	import winsdk.windows.data.xml.dom as dom
+	import ctypes
+
+	appid = 'ergonsideration.task.notifier'
+	ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
+
+	if window_handle is None:
+		window_handle = sys.executable
+	#else:
+		#HWND = ctypes.windll.user32.GetForegroundWindow()
+		#ctypes.windll.user32.SetParent(window_handle, HWND)
+		#window_handle = HWND
 
 	nManager = notifications.ToastNotificationManager
-	notifier = nManager.create_toast_notifier(sys.executable)
+	notifier = nManager.create_toast_notifier(ctypes.windll.shell32.GetCurrentProcessExplicitAppUserModelID) #sys.executable
+	#raise ValueError(f'{type(window_handle)} with content {str(window_handle)}')
 
 	match notification_config:
 		case {'visual_config': {'task_name': task_name, 'title': task_title, 'content': task_content, 'template': task_template},

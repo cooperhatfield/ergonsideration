@@ -14,6 +14,10 @@ class Task:
 		self.schedule_config = schedule_config
 		self.checkers = checkers
 		self.name = name
+		self.window_handle = None
+
+	def _set_window_handle(self, window_handle):
+		self.window_handle = window_handle
 
 	def run_task(self):
 		''' Check if the user is busy. If not, then send a notification.
@@ -23,7 +27,7 @@ class Task:
 		'''
 		user_is_busy = self.is_busy()
 		if not user_is_busy:
-			notify.send_notification(self.notification_config)
+			notify.send_notification(self.notification_config, window_handle=self.window_handle)
 			task_length = self.schedule_config.get('length', 0)
 			# set up a notification to end the task, if configured
 			if task_length > 0:
