@@ -18,5 +18,5 @@ setuptools.setup(
     },
     license='',
     packages=['ergonsideration'],
-    install_requires= ['importlib'] + ['winsdk'] if sys.platform.startswith('win') else [],
+    install_requires= ['importlib'] + ['win10toast'] if sys.platform.startswith('win') else [],
 )

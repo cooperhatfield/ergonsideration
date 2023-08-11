@@ -72,24 +72,8 @@ def send_win_toast_notification(notification_config, *, clear_previous=True, win
 	TODO:
 	- add support for button results
 	'''
-	# from https://stackoverflow.com/questions/64230231/how-can-i-can-send-windows-10-notifications-with-python-that-has-a-button-on-the
-	import winsdk.windows.ui.notifications as notifications
-	import winsdk.windows.data.xml.dom as dom
-	import ctypes
-
-	appid = 'ergonsideration.task.notifier'
-	ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
-
-	if window_handle is None:
-		window_handle = sys.executable
-	#else:
-		#HWND = ctypes.windll.user32.GetForegroundWindow()
-		#ctypes.windll.user32.SetParent(window_handle, HWND)
-		#window_handle = HWND
-
-	nManager = notifications.ToastNotificationManager
-	notifier = nManager.create_toast_notifier(ctypes.windll.shell32.GetCurrentProcessExplicitAppUserModelID) #sys.executable
-	#raise ValueError(f'{type(window_handle)} with content {str(window_handle)}')
+	import win10toast as wt
+	toaster =  wt.ToastNotifier()
 
 	match notification_config:
 		case {'visual_config': {'task_name': task_name, 'title': task_title, 'content': task_content, 'template': task_template},
@@ -103,28 +87,6 @@ def send_win_toast_notification(notification_config, *, clear_previous=True, win
 		case _:
 			pass
 
-	task_string = '''
-	<toast duration="short">
+	toaster.show_toast(task_title, task_content, duration=5, threaded=True)
 
-        <visual>
-            <binding template='ToastGeneric'>
-                <text>{title}</text>
-                <text>{content}</text>
-            </binding>
-        </visual>
-
-        {buttons}
-
-    </toast>'''.format(title=task_title, content=task_content, buttons=task_buttons)
-
-	#convert notification to an XmlDocument
-	xml_doc = dom.XmlDocument()
-	xml_doc.load_xml(task_string)
-
-	if clear_previous:
-		#clear previous toasts
-		history = nManager.get_history()
-		history.clear(sys.executable)
-
-	#display notification
-	notifier.show(notifications.ToastNotification(xml_doc))
+	
