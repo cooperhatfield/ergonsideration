@@ -1,38 +1,17 @@
 import sys
 import os
 
-default_Accept_Snooze_Toast = '''<actions>
-							        <action
-							            content="Start"
-							            arguments="accept"
-							            activationType="background"/>
-							        <action
-							            content="Snooze"
-							            arguments="snooze"
-							            activationType="background"/>
-							    </actions>'''
-default_Accept_Toast = '''<actions>
-					         <action
-					             content="Accept"
-					             arguments="accept"
-					             activationType="background"/>
-					     </actions>'''
-
-
 notification_config_v1 = {'visual_config': {
 							'task_name': 'example',
 							'title': 'example Title',
 							'content': 'example content',
-							'template': 'toastGeneric'
 							},
-						  'button_config': {
-						  	'button_group': default_Accept_Snooze_Toast
-						  }
+						  'button_config': []
 						}
 
 def send_notification(notification_config):
 	''' Choose the right kind of notification to send. Currently only supports Windows "Toast" 
-		notifications.
+		notifications and OSX darwin alert boxes.
 
 	TODO:
 	- send other types of notifications
@@ -66,8 +45,8 @@ def send_osx_notification(notification_config, *, clear_previous=True):
 	os.system(f'osascript -e \'display alert "{title}" message "{text}" buttons {buttons_text} giving up after {timeout_time}\'')
 
 
-	''' from https://stackoverflow.com/questions/64230231/how-can-i-can-send-windows-10-notifications-with-python-that-has-a-button-on-the
 def send_win_toast_notification(notification_config, *, clear_previous=True):
+	''' 
 	Create a windows 'Toast' notification with content from the `notification_config` dict, and display it.
 	TODO:
 	- add support for button results
