@@ -16,7 +16,7 @@ class Threader(threading.Thread):
         self.start()
 
     def run(self):
-        main.setup_calendar_from_interface(self.tasks, window_handle=app.winfo_id())
+        main.setup_calendar_from_interface(self.tasks)
 
 class TaskListEntry(tk.Frame):
     def __init__(self, master=None, content=None):
