@@ -30,7 +30,7 @@ notification_config_v1 = {'visual_config': {
 						  }
 						}
 
-def send_notification(notification_config, *, window_handle=None):
+def send_notification(notification_config):
 	''' Choose the right kind of notification to send. Currently only supports Windows "Toast" 
 		notifications.
 
@@ -38,7 +38,7 @@ def send_notification(notification_config, *, window_handle=None):
 	- send other types of notifications
 	'''
 	if sys.platform.startswith('win'):
-		send_win_toast_notification(notification_config, window_handle=window_handle)
+		send_win_toast_notification(notification_config)
 	elif sys.platform.startswith('darwin'):
 		send_osx_notification(notification_config)
 	elif sys.platform.startswith('linux'):
@@ -66,8 +66,8 @@ def send_osx_notification(notification_config, *, clear_previous=True):
 	os.system(f'osascript -e \'display alert "{title}" message "{text}" buttons {buttons_text} giving up after {timeout_time}\'')
 
 
-def send_win_toast_notification(notification_config, *, clear_previous=True, window_handle=None):
 	''' from https://stackoverflow.com/questions/64230231/how-can-i-can-send-windows-10-notifications-with-python-that-has-a-button-on-the
+def send_win_toast_notification(notification_config, *, clear_previous=True):
 	Create a windows 'Toast' notification with content from the `notification_config` dict, and display it.
 	TODO:
 	- add support for button results
@@ -77,14 +77,7 @@ def send_win_toast_notification(notification_config, *, clear_previous=True, win
 
 	match notification_config:
 		case {'visual_config': {'task_name': task_name, 'title': task_title, 'content': task_content, 'template': task_template},
-			  'button_config': {'button_group': task_buttons}}:
-			pass
-	match notification_config['button_config']['button_group']:
-		case 'default_Accept_Snooze':
-			task_buttons = default_Accept_Snooze_Toast
-		case 'default_Accept':
-			task_buttons = default_Accept_Toast
-		case _:
+			  'button_config': buttons}:
 			pass
 
 	toaster.show_toast(task_title, task_content, duration=5, threaded=True)
